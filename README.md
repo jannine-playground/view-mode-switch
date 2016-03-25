@@ -1,10 +1,11 @@
 
-View Mode Switch
-=========
-A simple view mode switch that has two example layouts, a grid and a list. 
+### Reimpoement with React
 
-[article on Codrops](http://tympanus.net/codrops/?p=15656)
+### Setup
 
-[demo](http://tympanus.net/Blueprints/ViewModeSwitch/)
+```
+jspm init
+jspm install npm:react --save
+jspm install npm:react-dom --save
+```
 
-[LICENSING & TERMS OF USE](http://tympanus.net/codrops/licensing/)
