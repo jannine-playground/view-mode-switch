@@ -1,11 +1,11 @@
 
-### Reimplement "ViewModeSwitch" with React
+### Reimplement `ViewModeSwitch` with React
 
 ### Setup
 
 ```
 jspm init
-jspm install npm:react --save
-jspm install npm:react-dom --save
+jspm install npm:react
+jspm install npm:react-dom
 ```
 
