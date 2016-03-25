@@ -1,5 +1,5 @@
 
-### Reimpoement with React
+### Reimpoement "ViewModeSwitch" with React
 
 ### Setup
 
