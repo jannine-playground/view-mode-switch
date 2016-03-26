@@ -1,4 +1,4 @@
-System.register(["react", "react-dom"], function(exports_1, context_1) {
+System.register(["react", "react-dom", "jquery", "./api"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -6,8 +6,8 @@ System.register(["react", "react-dom"], function(exports_1, context_1) {
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var react_1, react_dom_1;
-    var Product, Main, Header, Container;
+    var react_1, react_dom_1, jquery_1, Api;
+    var Single, MyState, Main, Header, Container;
     return {
         setters:[
             function (react_1_1) {
@@ -15,22 +15,50 @@ System.register(["react", "react-dom"], function(exports_1, context_1) {
             },
             function (react_dom_1_1) {
                 react_dom_1 = react_dom_1_1;
+            },
+            function (jquery_1_1) {
+                jquery_1 = jquery_1_1;
+            },
+            function (Api_1) {
+                Api = Api_1;
             }],
         execute: function() {
-            Product = (function () {
-                function Product(id, name, prince, detail) {
-                    this.id = id;
-                    this.name = name;
-                    this.prince = prince;
-                    this.detail = detail;
+            Single = (function () {
+                function Single() {
                 }
-                return Product;
+                return Single;
+            }());
+            MyState = (function () {
+                function MyState() {
+                    this.products = [];
+                }
+                return MyState;
             }());
             Main = (function (_super) {
                 __extends(Main, _super);
                 function Main() {
-                    _super.apply(this, arguments);
+                    _super.call(this);
+                    this.state = { products: [] };
                 }
+                Main.prototype.componentDidMount = function () {
+                    var _this = this;
+                    console.log("|| componentDidMount");
+                    console.log(this.state);
+                    var request = jquery_1.default.get(Api.getServiceUri(), function (rs) {
+                        console.log(rs);
+                        var products = rs.map(function (t) {
+                            var product = new Single();
+                            product.id = t.id;
+                            product.name = new Date(t.created_at + "").getFullYear().toString();
+                            product.view = t.playback_count;
+                            product.detail = t.title;
+                            product.image = t.artwork_url;
+                            return product;
+                        });
+                        _this.setState({ products: products });
+                        console.log(_this.state);
+                    });
+                };
                 Main.prototype.createOptionItem = function (className, text) {
                     return (react_1.default.createElement("a", {className: className}, text));
                 };
@@ -40,14 +68,12 @@ System.register(["react", "react-dom"], function(exports_1, context_1) {
                         this.createOptionItem("cbp-vm-icon cbp-vm-list", "List View")));
                 };
                 Main.prototype.createItem = function (product) {
-                    return (react_1.default.createElement("li", null, 
+                    return (react_1.default.createElement("li", {key: product.id}, 
                         react_1.default.createElement("a", {className: "cbp-vm-image"}, 
-                            react_1.default.createElement("img", {src: "images/" + product.id + ".png"}), 
+                            react_1.default.createElement("img", {src: product.image}), 
                             " "), 
                         react_1.default.createElement("h3", {className: "cbp-vm-title"}, product.name), 
-                        react_1.default.createElement("div", {className: "cbp-vm-price"}, 
-                            "$", 
-                            product.prince), 
+                        react_1.default.createElement("div", {className: "cbp-vm-price"}, product.view), 
                         react_1.default.createElement("div", {className: "cbp-vm-details"}, product.detail), 
                         react_1.default.createElement("a", {className: "cbp-vm-icon cbp-vm-add", href: "#"}, "Add to card")));
                 };
@@ -55,16 +81,7 @@ System.register(["react", "react-dom"], function(exports_1, context_1) {
                     return (react_1.default.createElement("div", {className: "main"}, 
                         react_1.default.createElement("div", {className: "cbp-vm-switcher cbp-vm-view-grid", id: "cbp-vm"}, 
                             this.createOptions(), 
-                            react_1.default.createElement("ul", null, 
-                                this.createItem(new Product(1, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(2, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(3, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(4, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(5, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(6, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(7, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(8, "Silver beet", 19.00, "Silver beet shallot wakame")), 
-                                this.createItem(new Product(9, "Silver beet", 19.00, "Silver beet shallot wakame"))))
+                            react_1.default.createElement("ul", null, this.state.products.map(this.createItem)))
                     ));
                 };
                 return Main;

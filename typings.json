@@ -1,7 +1,10 @@
 {
   "version": false,
-  "dependencies": {},
+  "dependencies": {
+    "react-addons-update": "registry:npm/react-addons-update#0.14.0+20160324044346"
+  },
   "ambientDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160316155526",
     "react": "registry:dt/react#0.14.0+20160319053454",
     "react-dom": "registry:dt/react-dom#0.14.0+20160316155526"
   }

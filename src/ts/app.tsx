@@ -2,13 +2,50 @@
 
 import React from "react"
 import ReactDOM from "react-dom";
+import $ from "jquery";
+import * as Api from "./api";
+import update from "react-addons-update";
 
-class Product {
-    constructor(public id, public name, public prince, public detail) {
-    }
+class Single {
+    id: number;
+    name: string;
+    view: number;
+    detail: string;
+    image: string;
 }
 
-class Main extends React.Component<any, any> {
+class MyState {
+    products: Single[] = [];
+}
+
+class Main extends React.Component<any, MyState> {
+
+    constructor() {
+        super();
+        this.state = { products: [] };
+    }
+
+    componentDidMount() {
+        console.log("|| componentDidMount");
+        console.log(this.state);
+
+        let request = $.get(Api.getServiceUri(), (rs:Api.Track[]) => {
+            console.log(rs);
+            let products =
+                rs.map( t => {
+                    var product = new Single();
+                    product.id = t.id;
+                    product.name = new Date(t.created_at + "").getFullYear().toString();
+                    product.view = t.playback_count;
+                    product.detail = t.title;
+                    product.image = t.artwork_url;
+                    return product;
+                });
+            this.setState({ products: products });
+            console.log(this.state);
+        });
+    }
+
     createOptionItem(className, text) {
         return (
                 <a className={className}>{text}</a>
@@ -23,13 +60,13 @@ class Main extends React.Component<any, any> {
         );
     }
 
-    createItem(product: Product) {
+    createItem(product: Single) {
         return (
-            <li>
+            <li key={product.id}>
                 <a className="cbp-vm-image">
-                    <img src={`images/${product.id}.png`}/> </a>
+                    <img src={product.image}/> </a>
                 <h3 className="cbp-vm-title">{product.name}</h3>
-                <div className="cbp-vm-price">${product.prince}</div>
+                <div className="cbp-vm-price">{product.view}</div>
                 <div className="cbp-vm-details">{product.detail}</div>
                 <a className="cbp-vm-icon cbp-vm-add" href="#">Add to card</a>
             </li>
@@ -42,15 +79,7 @@ class Main extends React.Component<any, any> {
                 <div className="cbp-vm-switcher cbp-vm-view-grid" id="cbp-vm">
                     {this.createOptions()}
                     <ul>
-                        {this.createItem( new Product(1, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(2, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(3, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(4, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(5, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(6, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(7, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(8, "Silver beet", 19.00, "Silver beet shallot wakame"))}
-                        {this.createItem( new Product(9, "Silver beet", 19.00, "Silver beet shallot wakame"))}
+                        {this.state.products.map(this.createItem)}
                     </ul>
                 </div>
             </div>

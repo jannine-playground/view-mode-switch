@@ -8,7 +8,9 @@ System.config({
   },
 
   map: {
+    "jquery": "npm:jquery@2.2.2",
     "react": "npm:react@0.14.7",
+    "react-addons-update": "npm:react-addons-update@0.14.7",
     "react-dom": "npm:react-dom@0.14.7",
     "typescript": "npm:typescript@1.8.9",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -31,6 +33,9 @@ System.config({
     },
     "npm:process@0.11.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
+    "npm:react-addons-update@0.14.7": {
+      "react": "npm:react@0.14.7"
     },
     "npm:react-dom@0.14.7": {
       "react": "npm:react@0.14.7"

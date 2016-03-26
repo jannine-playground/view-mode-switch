@@ -10,11 +10,13 @@
         "jsx": "react"
     },
     "compileOnSave": true,
-    "excode": [],
+    "excludes": [],
     "files": [
+        "ts/api.ts",
         "ts/app.tsx"
     ],
     "filesGlob": [
+        "ts/*.ts",
         "ts/*.tsx"
     ],
     "atom": {
