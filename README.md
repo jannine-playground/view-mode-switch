@@ -11,7 +11,7 @@ jspm install npm:react-addons-update
 jspm install npm:jquery
 ```
 
-### Setup typescript
+### Setup TypeScript
 
 ```
 typings init
